@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title> Vue.js sample</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.18/vue.min.js"></script>
+    <script src="httls://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <!-- $dataでデータを一括表示 -->
+        {{ $data }}
+        <!-- v-forでループを回すこともできる -->
+        <hr>
+        <li v-for="(k, v) in $data">{{ k }}:{{ v }}</li>
+    </div>
+    <script>
+        new Vue({
+            el: "#app",
+            data: {
+                myText: "hoge",
+                myint: 1,
+                myArray: [1, 2, 3],
+                myObject: { "hoge": 1, "foo": 2, "bar": 3 }
+            }
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title> Vue.js sample</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.18/vue.min.js"></script>
+    <script src="httls://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+</head>
+
+<body>
+    <!-- 表示部分 -->
+    <div id=app>
+        <!-- myTextを直接表示 -->
+        <p> {{myText}}</p>
+        <!-- プロパティ名myTextをv-textディレクティブで(テキストとして)表示 -->
+        <p v-text="myText"></p>
+        <!-- プロパティ名myTextをv-htmlディレクティブで(htmlとして)表示 -->
+        <p v-html="myText"></p>
+    </div>
+    <!-- 関数 -->
+    <script>
+        new Vue({
+            el: "#app",
+            data: {
+                myText: "<h1>hello!</h1>"
+            }
+        })
+    </script>
+</body>
+
+</html>
+
+<!-- メモ 
+html内で"v-〇〇"でディレクティブを指定
+html内で使用する関数を指定せず，Vueの方から一方的に対象とするhtmlブロックを指定している
+-->
