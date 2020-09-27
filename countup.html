@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title> Vue.js sample</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.18/vue.min.js"></script>
+    <script src="httls://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+</head>
+
+<body>
+    <!-- 表示部分 -->
+    <h2>クリックしたらカウントアップ</h2>
+    <div id="app">
+        <p>{{ count }}回</p>
+        <button v-on:click="countup">カウント</button>
+    </div>
+    <!-- カウント用関数 -->
+    <script>
+        new Vue({
+            el: "#app",
+            data: {
+                count: 0
+            },
+            methods: {
+                countup: function () {
+                    this.count++;
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
