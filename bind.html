@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title> Vue.js sample</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.18/vue.min.js"></script>
+    <script src="httls://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+</head>
+
+<body>
+    <!-- v-bindによるsrcの指定 -->
+    <div id="app">
+        <img src="imgs/sukinator.png" width="100%">直接指定</img>
+        <hr>
+        <img v-bind:src="image" v-bind:width="width">v-bindによる指定</img>
+    </div>
+    <script>
+        new Vue({
+            el: "#app",
+            data: {
+                image: "imgs/sukinator.png",
+                width: "100%"
+            }
+        })
+    </script>
+    <!-- v-bindによるstyleの指定 -->
+    <div id="app2">
+        <p style="color: darkgreen">文字色指定</p>
+        <p v-bind:style="{color: myColor}">v-bindで文字色指定</p>
+    </div>
+    <script>
+        new Vue({
+            el: "#app2",
+            data: {
+                myColor: "darkgreen"
+            }
+        })
+    </script>
+    <!-- v-bindなら複数のCSSを指定できる -->
+    <style>
+        .strike-through {
+            text-decoration: line-through;
+            color: lightgray;
+        }
+
+        .dark {
+            background-color: darkgray;
+        }
+    </style>
+    <div id="app3">
+        <p class="strike-through">strike-through属性</p>
+        <p class="dark">dark属性</p>
+        <p v-bind:class="[class1, class2]">v-bindにより二重付与</p>
+        <p v-bind:class="{'strike-through': switch}">class1のON/OFF</p>
+    </div>
+    <script>
+        new Vue({
+            el: "#app3",
+            data: {
+                class1: "strike-through",
+                class2: "dark",
+                switch: false
+            }
+        })
+    </script>
+</body>
+
+</html>
+
+<!-- メモ
+htmlでCSSを指定する場合，style = "color: hoge"と書く．
+v-bindの場合は{}が付き，v-bind:style={"color: hoge"}となる．
+-->
