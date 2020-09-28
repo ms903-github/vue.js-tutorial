@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title> Vue.js sample</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.18/vue.min.js"></script>
+    <script src="httls://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+</head>
+
+<body>
+    <!-- ##################### v-modelについて ################## -->
+    <div id="app">
+        <!-- input, textarea, checkboxのv-modelによるデータ保存の例 -->
+        <input v-model="name" placeholder="enter your name">
+        <textarea v-model="text"></textarea>
+        <input type="checkbox" v-model="check"><br>
+        <!-- model内のデータに応じてボタンを有効/無効にする -->
+        <button v-bind:disabled="check==false">同意して送信</button>
+
+        <!-- checkboxによる複数選択肢の例 -->
+        <label><input type="checkbox" value="ch1" v-model="channel">１</label><br>
+        <label><input type="checkbox" value="ch2" v-model="channel">２</label><br>
+        <label><input type="checkbox" value="ch3" v-model="channel">３</label><br>
+
+        <!-- input radioによる選択の例 -->
+        <label><input type="radio" value="imgs/1.png" v-model="image">画像１</label><br>
+        <label><input type="radio" value="imgs/2.png" v-model="image">画像２</label><br>
+        <label><input type="radio" value="imgs/3.png" v-model="image">画像３</label><br>
+        <!-- model内のデータに応じて表示を切り替える -->
+        <img v-bind:src="image"></img><br>
+
+        <!-- セレクタを用いた例 -->
+        <select v-model="select">
+            <option disabled value="">非選択時</option>
+            <option>red</option>
+            <option>green</option>
+            <option>blue</option>
+        </select>
+
+        <hr>
+        <p>私の名前は{{ name }}です．</p>
+        <p>入力内容：{{text }}</p>
+        <h6>{{ text.length }}文字</h6>
+        <p>チェック：{{ check }}</p>
+        <p>チャンネル：{{ channel }}</p>
+        <p>セレクタ：{{ select }}</p>
+        <p v-bind:style="{color: select}">選んだのは{{ select }}です</p>
+    </div>
+    <script>
+        new Vue({
+            el: "#app",
+            data: {
+                name: "",
+                text: "default",
+                check: false,
+                channel: [],
+                image: "imgs/1.png",
+                select: [],
+            }
+        })
+    </script>
+
+</body>
+
+</html>
+
+<!-- メモ
+inputのplaceholder：初期表示内容を指定
+input type : 入力データの種類指定．色々なバリエーションがある．
+    checkbox, radioを使う時は選択肢を<label>で羅列する
+セレクタ：<select>で枠を作り，<option>で選択肢を作る
+v-bindで直接指定できる場合(v-bind:srcなど)と，
+styleを挟んで指定しないといけない場合(v-bind:style={color:hoge}など)があることに注意
+
+v-modelの修飾子
+v-model.lazy：入力が完了してから値に反映される
+v-model.number：入力を数値化(int化)する
+v-model.trim：入力の空白を取り除く
+-->
