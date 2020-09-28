@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title> Vue.js sample</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.18/vue.min.js"></script>
+    <script src="httls://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+</head>
+
+<body>
+    <!-- ##################### v-onについて ################## -->
+    <!-- v-onによるモデルのデータの操作 -->
+    <div id="app">
+        <h3>クリックしてカウント</h3>
+        <p>{{ cnt }}</p>
+        <button v-on:click="count">click</button>
+    </div>
+    <script>
+        new Vue({
+            el: "#app",
+            data: {
+                cnt: 0,
+            },
+            methods: {
+                count: function () {
+                    this.cnt++;  // このthisはVueのデータオブジェクトを指す
+                }
+            }
+        })
+    </script>
+    <!-- methods.functionへの数値代入 -->
+    <div id="app0">
+        <h3>クリックしてカウント</h3>
+        <p>{{ cnt }}</p>
+        <button v-on:click="count(5)">click5</button>
+        <button v-on:click="count(10)">click10</button>
+    </div>
+    <script>
+        new Vue({
+            el: "#app0",
+            data: {
+                cnt: 0,
+            },
+            methods: {
+                count: function (num) {
+                    this.cnt += num;
+                }
+            }
+        })
+    </script>
+    <!-- v-onによるhtml→modelの操作＆v-bindによるmodel→htmlの操作 -->
+    <div id="app2">
+        <h3>クリックしていいね</h3>
+        <button v-on:click="like" v-bind:disabled="isClicked">like!</button>
+    </div>
+    <script>
+        function popLike() {
+            alert("like!");
+        }
+        new Vue({
+            el: "#app2",
+            data: {
+                isClicked: false,
+            },
+            methods: {
+                like: function () {
+                    popLike();
+                    this.isClicked = true;
+                }
+            }
+        })
+    </script>
+    <!-- v-onにおいてキー入力はkeyup.(キー名) -->
+    <div id="app3">
+        <h3>エンターで送信</h3>
+        <input v-on:keyup.enter="submit(text)" v-model="text">
+    </div>
+    <script>
+        new Vue({
+            el: "#app3",
+            data: {
+                text: "",
+            },
+            methods: {
+                submit: function (text) {
+                    alert(text + "を送信します")
+                }
+
+            }
+        })
+    </script>
+</body>
+
+</html>
+
+<!-- メモ
+"v-on:hoge"は"@hoge"と略せる
+v-modelは入力とデータを，v-onはイベントとメソッドを繋ぐ
+html→modelの場合：v-modelがデータを．v-onがメソッドを担当
+model→htmlの場合：v-bindによりモデルのデータをhtmlに適用
+methodsにおいて保存したデータを取り出したいときはthis.hogeで取り出す
+<script>内にVueとは別の関数を用意しておきVue.method内で呼び出すという手もあり
+-->
