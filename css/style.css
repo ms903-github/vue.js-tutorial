@@ -46,6 +46,20 @@ select{
     border: 2px solid #ced4da;
 }
 
+table {
+    width: 100%;
+    text-align: left;
+}
+table th {
+    padding: 12px;
+    border-bottom: 2px solid darkgray;
+}
+table td {
+    padding: 12px;
+}
+table tr:nth-of-type(even){
+    background-color: rgba(0, 0, 255, 0.1);
+}
 /*　メモ
 CSSセレクタ
 hoge {color : red} 対象のタグ全てに適用
@@ -53,4 +67,5 @@ hoge {color : red} 対象のタグ全てに適用
 #hoge {color : red} id名"hoge"に適用
 transition要素で簡単なアニメーションを記述
 opacityは透明度
+hoge:nth-of-type(n)でn番目の要素を指定，n=evenとすると偶数番目
 */

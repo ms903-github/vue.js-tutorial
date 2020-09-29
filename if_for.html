@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title> Vue.js sample</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.18/vue.min.js"></script>
+    <script src="httls://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+</head>
+
+<body>
+    <!-- ##################### v-if, v-forについて ################## -->
+    <!-- v-if, v-elseの使い方 -->
+    <div id="app">
+        <label><input type="checkbox" v-model="checked">チェックすると表示</label>
+        <p v-if="checked">隠し表示</p>
+        <p v-else>なにもないよ</p>
+        <!-- v-ifでボタンも消せる -->
+        <button v-if="checked" v-on:click="like">ボタン</button>
+        <hr>
+    </div>
+    <script>
+        new Vue({
+            el: "#app",
+            data: {
+                checked: false,
+            },
+            methods: {
+                like: function () {
+                    alert("like!");
+                    this.checked = false;
+                }
+            }
+        })
+    </script>
+    <!-- v-forの使い方 -->
+    <div id="app0">
+        <!-- 自動でenumerateされる -->
+        <ul>
+            <li v-for="(idx, item) in items">{{ idx }}:{{ item }}</li>
+        </ul>
+        <!-- intを渡すと自動でrange(int)と解釈する -->
+        <ul>
+            <li v-for="x in 5">{{ x }}</li>
+        </ul>
+    </div>
+    <script>
+        new Vue({
+            el: "#app0",
+            data: {
+                items: ["a", "b", "c"]
+            }
+        })
+    </script>
+    <!-- 表を作成する -->
+    <div id="app1">
+        <h3>プログラミング言語ランキング</h3>
+        <table>
+            <thead>
+                <th v-for="box in header">{{box}}</th>
+            </thead>
+            <tbody>
+                <tr v-for="row in ranking">
+                    <td v-for="box in row">{{ box }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script>
+        new Vue({
+            el: "#app1",
+            data: {
+                header: ["言語", "2018", "2013", "2008", "2003", "1998"],
+                ranking: [
+                    ["Java", 1, 2, 1, 1, 16],
+                    ["C", 2, 1, 2, 2, 1],
+                    ["C++", 3, 4, 3, 3, 2],
+                    ["Python", 4, 7, 6, 11, 23],
+                    ["JavaScript", 7, 10, 8, 7, 20]
+                ]
+            }
+        })
+    </script>
+    <!-- ##################### 配列の扱いについて ################## -->
+    <!-- .push, .spliceで配列を操作 -->
+    <div id="app2">
+        <ul>
+            <li v-for="item in array">{{item}}</li>
+        </ul>
+        <button v-on:click="add">配列を追加</button><br>
+        <button v-on:click="delete">配列を削除</button><br>
+    </div>
+    <script>
+        new Vue({
+            el: "#app2",
+            data: {
+                array: [1, 2, 3, 4, 5]
+            },
+            methods: {
+                add: function () {
+                    // var last = this.array[-1];
+                    this.array.push("追加");
+                },
+                delete: function () {
+                    var len = this.array.length;
+                    alert(len)
+                    this.array.splice(len - 1, 1);
+                }
+            }
+        })
+    </script>
+    <!-- 配列のソート -->
+    <div id="app3">
+        {{ array }}
+        <button v-on:click="sortfunc">ソート</button><br>
+        {{ result }}
+        <button v-on:click="filter">フィルター</button>
+    </div>
+    <script>
+        new Vue({
+            el: "#app3",
+            data: {
+                array: [1, 5, 3, 4, 2],
+                result: [1, 1],
+            },
+            methods: {
+                sortfunc: function () {
+                    this.array.sort(function (a, b) {
+                        return (a < b ? -1 : 1);
+                    })
+                },
+                filter: function () {
+                    this.result = this.array.filter(function (x) {
+                        return x % 2 == 0;
+                    });
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
+
+<!-- メモ 
+v-if：if文というよりそのボックスを表示させるか否かのスイッチみたいなものと考えた方がよい？
+箇条書き：<ul>からの<li>
+表：<table>からの<thead>でヘッダーを，<tbody>で表の中身を作る．<tr>が一列を，<tb>が個別のマスを表す
+リアルタイムで配列を操作するには.push, .spliceをしなければならない
+array.sort()：配列の破壊的並び替え．()内で比較関数を指定できる．
+
+-->
