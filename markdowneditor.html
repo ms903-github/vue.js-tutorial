@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title> Vue.js sample</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.18/vue.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.4.0/marked.min.js"></script>
+</head>
+
+<body>
+    <!-- ############## marked.jsの使い方 ############ -->
+    <div id="app">
+        <h2>入力</h2>
+        <textarea v-model="text"></textarea>
+        <h2>出力</h2>
+        <div v-html="converted"></div>
+    </div>
+    <script>
+        new Vue({
+            el: "#app",
+            data: {
+                text: ""
+            },
+            computed: {
+                converted: function () {
+                    return marked(this.text);
+                }
+            }
+
+        })
+    </script>
+</body>
+
+</html>
+
+<!-- メモ 
+maked()はテキストをmarkdown記法に則りhtmlに変換する．v-htmlでhtmlとして表示．
+-->
