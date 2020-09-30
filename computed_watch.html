@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title> Vue.js sample</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.18/vue.min.js"></script>
+    <script src="httls://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/TweenMax.min.js"></script>
+</head>
+
+<body>
+    <!-- ##################### computedについて ################## -->
+    <div id="app">
+        <p>入力フォーム</p>
+        <textarea v-model="text"></textarea>
+        <p v-bind:style="{color : currentcolor}">残り{{remaintxt}}文字</p>
+    </div>
+    <script>
+        new Vue({
+            el: "#app",
+            data: {
+                text: "",
+            },
+            computed: {
+                currentcolor: function () {
+                    var txt = this.text.length;
+                    var currentcolor = "black";
+                    if (txt < 100) {
+                        currentcolor = "black";
+                    } else if (txt < 150) {
+                        currentcolor = "blue";
+                    } else {
+                        currentcolor = "red";
+                    }
+                    return currentcolor
+                },
+                remaintxt: function () {
+                    return 200 - this.text.length
+                }
+            }
+        })
+    </script>
+    <div id="app0">
+        <p v-bind:style="{backgroundColor: mixcolor}">背景色を変更</p>
+        <input type="range" v-model="R" min="0" max="255"><br>
+        <input type="range" v-model="G" min="0" max="255"><br>
+        <input type="range" v-model="B" min="0" max="255"><br>
+    </div>
+    <script>
+        new Vue({
+            el: "#app0",
+            data: {
+                R: "0",
+                G: "0",
+                B: "0"
+            },
+            computed: {
+                mixcolor: function () {
+                    return ("RGB(" + this.R + "," + this.G + "," + this.B + ")");
+                }
+            }
+        })
+    </script>
+    <!-- ##################### watchについて ################## -->
+    <!-- 入力文字の監視 -->
+    <div id="app1">
+        <p>禁止文字：{{ forbidden }}</p>
+        <textarea v-model="text"></textarea>
+    </div>
+    <script>
+        new Vue({
+            el: "#app1",
+            data: {
+                forbidden: "fuck",
+                text: ""
+            },
+            watch: {
+                //　{監視対象の変数名 : 監視方法}
+                text: function () {
+                    var pos = this.text.indexOf(this.forbidden);
+                    if (pos >= 0) {
+                        alert(this.forbidden + "は入力できません");
+                        this.text = this.text.substr(0, pos);
+                    }
+                }
+            }
+        })
+    </script>
+    <!-- カウントダウンの監視 -->
+    <!-- vanila jsによるタイマープログラム -->
+    <p>タイマー</p>
+    <button onclick="startTimer()">start</button><br>
+    <script>
+        function startTimer() {
+            this.restsec = 5;
+            this.timerObj = setInterval(() => { countDown() }, 1000);
+        }
+        function countDown() {
+            this.restsec--;
+            if (this.restsec <= 0) {
+                alert("制限時間です");
+                clearInterval(this.timerObj);
+            }
+        }
+    </script>
+    <!-- vue.jsによるタイマープログラム -->
+    <div id="app2">
+        <p>残り{{restsec}}秒</p>
+        <button v-on:click="startTimer">start</button><br>
+    </div>
+    <script>
+        new Vue({
+            el: "#app2",
+            data: {
+                restsec: 5,
+                timerObj: null,
+            },
+            methods: {
+                startTimer: function () {
+                    this.timerObj = setInterval(() => { this.restsec--; }, 1000);
+                }
+            },
+            watch: {
+                restsec: function () {
+                    if (this.restsec < 0) {
+                        alert("制限時間です")
+                        clearInterval(this.restsec);
+                        this.restsec = 5;
+                    }
+                }
+            }
+        })
+    </script>
+    <!-- watchとTweenMaxを使って数値変化をアニメーション化 -->
+    <div>
+        <h2>TweenMax</h2>
+        <button id="movebtn" type="button" onclick="move()">移動</button>
+        <script>
+            function move() {
+                TweenMax.to("#movebtn", 1, { x: "500px" });
+            }
+        </script>
+    </div>
+    <div id="app3">
+        <p>値は{{animenumber}}です．</p>
+        <input v-model.number="number" type="number">
+    </div>
+    <script>
+        new Vue({
+            el: "#app3",
+            data: {
+                number: 0,
+                tweeenednumber: 0,
+            },
+            watch: {
+                // tweeenednumber→numberへの遷移
+                number: function () {
+                    TweenMax.to(this.$data, 1, { tweeenednumber: this.number })
+                }
+            },
+            computed: {
+                // 表示する数値はcomputedで整形する
+                animenumber: function () {
+                    return (this.tweeenednumber.toFixed(0))
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
+
+<!-- メモ 
+computed：データを加工して渡すことができる 
+methodはイベントがないと呼び出せないが，computedは変数と同じようにいつでも呼び出せる
+watch：モデル内のデータに対して監視を行う=条件分岐みたいなものを組み込める？
+
+-->
