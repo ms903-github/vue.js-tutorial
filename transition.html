@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title> Vue.js sample</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+</head>
+
+<body>
+    <!-- ############## transitionタグの使い方 ############ -->
+    <style>
+        /* 遷移の最中のスタイル指定 */
+        .v-enter-active,
+        .v-leave-active {
+            transition: 0.5s;
+        }
+
+        /* 遷移後の状態のスタイル指定 */
+        .v-enter,
+        .v-leave-to {
+            opacity: 0;
+            transform: translateX(20px);
+        }
+    </style>
+    <div id="app">
+        <h2>チェックして表示を切り替え</h2>
+        <label><input type="checkbox" v-model="isOK">切り替える</label>
+        <transition>
+            <p v-if="isOK">表示・非表示のアニメーション</p>
+        </transition>
+    </div>
+    <script>
+        new Vue({
+            el: "#app",
+            data: {
+                isOK: false
+            }
+        })
+    </script>
+    <!-- ############## transition-groupの使い方 ############ -->
+    <div id="app0">
+        <h2>要素の追加によるアニメーション</h2>
+        <transition-group>
+            <li v-for="item in itemList" v-bind:key="item">{{item}}</li>
+        </transition-group>
+        <label><input type="text" v-model="additem" placeholder="追加する項目"></label>
+        <button v-on:click="addList">追加</button>
+        <button v-on:click="deleteList">削除</button>
+    </div>
+    <script>
+        new Vue({
+            el: "#app0",
+            // 新規データ保持用変数と全データ用リストを用意する
+            data: {
+                additem: "",
+                itemList: ["トヨタ", "ホンダ", "日産"],
+            },
+            methods: {
+                addList: function () {
+                    this.itemList.push(this.additem);
+                    this.additem = "";
+                },
+                deleteList: function () {
+                    var lastidx = this.itemList.length - 1;
+                    this.itemList.splice(lastidx, 1);
+                }
+            }
+        })
+    </script>
+
+    <style>
+        .v-move {
+            transition: 0.5s;
+            opacity: 0.4;
+        }
+    </style>
+    <div id="app1">
+        <h2>シャッフルのアニメーション</h2>
+        <transition-group>
+            <li v-for="item in itemList" v-bind:key="item">{{item}}</li>
+        </transition-group>
+        <button v-on:click="shuffle">シャッフル</button>
+        <button v-on:click="sort">ソート</button>
+    </div>
+    <script>
+        new Vue({
+            el: "#app1",
+            data: {
+                itemList: ["one", "two", "three", "four"]
+            },
+            methods: {
+                shuffle: function () {
+                    var buffer = [];
+                    var len = this.itemList.length;
+                    for (var i = len; len > 0; len--) {
+                        var r = Math.floor(Math.random() * len);
+                        buffer.push(this.itemList[r]);
+                        this.itemList.splice(r, 1);
+                    }
+                    this.itemList = buffer;
+                },
+                sort: function () {
+                    this.itemList.sort(function (a, b) { return (a < b ? -1 : 1); });
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
+
+<!-- メモ
+transition: css上でv-hogehogeを指定すれば自動的に適用してくれる
+複数要素に関するアニメーションはtransition-groupを使う
+今回の例に限らず，基本的にv-forをするときはv-bind:keyを指定する方がいいらしい
+-->
