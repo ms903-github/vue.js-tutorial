@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title> Vue.js sample</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.18/vue.min.js"></script>
+    <script src="httls://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+</head>
+
+<body>
+    <!-- ############## componentの使い方 ############ -->
+    <div id="app">
+        <h2>同じものを表示</h2>
+        <my-component></my-component>
+        <my-component></my-component>
+        <my-component></my-component>
+    </div>
+    <script>
+        // {template: "html記述"}なる変数を宣言した後，Vueインスタンス内でコンポーネントとして登録
+        var MyComponent = {
+            template: "<p class='my-comp'>Hello<p>"
+        }
+        new Vue({
+            el: "#app",
+            components: {
+                "my-component": MyComponent
+            }
+        })
+    </script>
+    <style>
+        .my-comp {
+            width: 300px;
+            background-color: "#ffffe0";
+            border: solid;
+            border-color: darkorange;
+            border-radius: 8px;
+            padding: 8px;
+        }
+    </style>
+
+    <div id="app0">
+        <h2>データの代入&関数の追加</h2>
+        <my-component comp-id="1"></my-component>
+        <my-component comp-id="2"></my-component>
+        <my-component comp-id="3"></my-component>
+        <my-component></my-component>
+    </div>
+    <script>
+        var MyComponent = {
+            template: "<p class='my-comp'>{{compId}}：<button v-on:click='addfunc'>追加</button>{{count}}<p>",
+            // props:htmlでテンプレートのタグが受け取る変数
+            props: { compId: "" },
+            // data:変数を格納する場所だが，なぜかfunctionで書かないといけない
+            data: function () {
+                return {
+                    count: 0
+                }
+            },
+            methods: {
+                addfunc: function () {
+                    this.count++;
+                }
+            },
+            // created: インスタンス生成後に実行する関数　ここでは値が代入されたかのチェックをする
+            created: function () {
+                if (this.compId == null) {
+                    this.compId = "null";
+                }
+            }
+        }
+        new Vue({
+            el: "#app0",
+            components: {
+                "my-component": MyComponent
+            }
+        })
+    </script>
+</body>
+
+</html>
+
+<!-- メモ 
+
+-->
